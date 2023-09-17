@@ -1,10 +1,10 @@
 <template>
   <DataTable :value="projects" tableStyle="min-width: 50rem">
-      <Column field="project" header="Project"></Column>
-      <Column field="percent" header="percent"></Column>
+      <Column field="title" header="Project"></Column>
+      <!-- <Column field="percent" header="percent"></Column> -->
       <Column>
         <template #body="slotProps">
-            <Button label="Access" @click="$router.push('/task/'+slotProps.data.projectId)"></Button>
+            <Button label="Access" @click="$router.push('/task/'+slotProps.data.id)"></Button>
         </template>
     </Column>
   </DataTable>
@@ -14,32 +14,44 @@
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
+import { GetApiRequest } from '../../services/getUserContext';
 
 
 export default {
   name: 'ProjectsComponent',
-  props: {
-    msg: String
-  },
   components:
   {
     DataTable,
     Column,
     Button
   },
+  props: {
+    // msg: String
+  },
   data(){
     return {
       cogActivated:false,
       projects:[
-        { project:'Waifu-GPT' , percent: "20%" , projectId:"0"},
-        { project:'WebNovel' , percent: "20%" , projectId:"0"},
-        { project:'Portfolio/Freelance Projects' , percent: "20%" , projectId:"0"},
-        { project:'Work Projects' , percent: "20%" , projectId:"0"},
-        { project:'Boxing' , percent: "20%" , projectId:"0"},
-        { project:'Administrative papers  ' , percent: "20%" , projectId:"0"},
+        { project:'Waifu-GPT'},
+        { project:'WebNovel'},
+        { project:'Portfolio/Freelance Projects'},
+        { project:'Work Projects'},
+        { project:'Boxing'},
+        { project:'Administrative papers  '},
       ]
     }
+  },
+  mounted()
+  {
+    this.loadProjects()
+  },
+  methods:{
+    async loadProjects()
+    {
+      this.projects = await GetApiRequest("project")
+    }
   }
+  
 }
 </script>
 

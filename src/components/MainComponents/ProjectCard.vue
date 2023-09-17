@@ -1,10 +1,10 @@
 <template>
-  <Card style="width: 25em">
+  <Card style="width: 25em" v-if="Project">
     <template #header>
         <img alt="user header" src="https://www.w3schools.com/howto/img_avatar.png"  width="120"/>
     </template>
-    <template #title> Waifu-gpt </template>
-    <template #subtitle> Un projet personnel </template>
+    <template #title> {{ Project.title }} </template>
+    <template #subtitle> {{ Project.description }} </template>
     <template #content>
     </template>
 </Card>
@@ -17,7 +17,7 @@ import Card from 'primevue/card';
 export default {
   name: 'ProjectCard',
   props: {
-    ProjectId:Boolean
+    Project:Object
   },
   components:
   {

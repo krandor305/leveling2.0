@@ -1,19 +1,36 @@
 <template>
     <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50vw' }">
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
+        <h4>
+            Ajout d'un projet
+        </h4>
+
+        <br/>
+
+        <span class="p-input-icon-left">
+            <InputText v-model="taskToAdd.title" placeholder="Title" />
+        </span>
+
+        <br/>
+        <br/>
+
+        <span class="p-float-label">
+            <Textarea v-model="taskToAdd.description" rows="5" cols="30" />
+            <label>Description</label>
+        </span>
+
+        <br/>
+
+        <Button label="Save" @click="SubmitAndResetCreate" />
     </Dialog>
 
     <DataTable :value="tasks" tableStyle="min-width: 50rem">
         <template #header>
             <div style="text-align: right">
-                <Button icon="pi pi-external-link" label="Ajout d'une tache" @click="visible=!visible" />
+                <Button icon="pi pi-external-link" label="Add a task" @click="visible=!visible" />
             </div>
         </template>
-        <Column field="task" header="Task"></Column>
-        <Column field="percent" header="percent"></Column>
+        <Column field="title" header="Task"></Column>
+        <!-- <Column field="percent" header="percent"></Column> -->
     </DataTable>
   </template>
   
@@ -22,19 +39,25 @@
   import Column from 'primevue/column';
   import Button from 'primevue/button';
   import Dialog from 'primevue/dialog';
-  
+  import Textarea from 'primevue/textarea';
+  import InputText from 'primevue/inputtext';
+  import { PostApiRequest } from '../../services/getUserContext';
   
   export default {
     name: 'tasksComponent',
     props: {
-      projectId: String
+      ProjectId:String,
+      Tasks: Array
     },
+    emits:['refresh'],
     components:
     {
       DataTable,
       Column,
       Button,
-      Dialog
+      Dialog,
+      Textarea,
+      InputText
     },
     data(){
       return {
@@ -46,7 +69,24 @@
           { task:'Work tasks' , percent: "20%"},
           { task:'Boxing' , percent: "20%"},
           { task:'Administrative papers  ' , percent: "20%"},
-        ]
+        ],
+        taskToAdd:{title:"",description:""}
+      }
+    },
+    mounted()
+    {
+      this.tasks = this.Tasks
+      // this.loadTasks()
+    },
+    methods:{
+      async SubmitAndResetCreate()
+      {
+        this.taskToAdd.project = this.ProjectId
+        this.taskToAdd.assignee = 1
+        await PostApiRequest("task",this.taskToAdd);
+        this.taskToAdd = {title:"",description:""};
+        this.visible = false;
+        this.$emit('refresh')
       }
     }
   }

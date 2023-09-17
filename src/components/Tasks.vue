@@ -2,14 +2,14 @@
   <div class="grid">
       <div class="col-2"></div>
         <div class="col-8">
-          <ProjectCard :ProjectId="ProjectId"></ProjectCard>
+          <ProjectCard :key="loaded" :Project="project"></ProjectCard>
         </div>
       <div class="col-2">
       </div>
 
       <div class="col-2"></div>
         <div class="col-8">
-          <Tasks :ProjectId="ProjectId"></Tasks>
+          <Tasks :key="loaded" :ProjectId="project.id" :Tasks="tasks" @refresh="loadProject()"></Tasks>
         </div>
       <div class="col-2">
       </div>
@@ -19,7 +19,7 @@
 <script>
 import Tasks from '../components/MainComponents/Tasks'
 import ProjectCard from '../components/MainComponents/ProjectCard'
-
+import { GetApiRequest } from '../services/getUserContext';
 
 export default {
   name: 'HomePage',
@@ -33,9 +33,28 @@ export default {
   },
   data(){
     return {
-      cogActivated:false
+      loaded:0,
+      tasks:[],
+      project:{}
     }
-  }
+  },
+  mounted()
+    {
+      this.loadProject()
+    },
+    methods:{
+      async loadProject()
+      {
+        if(this.ProjectId)
+        {
+          let project = await GetApiRequest("project/"+this.ProjectId)
+          this.project = project
+          this.tasks = project.tasks
+          this.loaded = new Date()
+        }
+        
+      }
+    }
 }
 </script>
 
