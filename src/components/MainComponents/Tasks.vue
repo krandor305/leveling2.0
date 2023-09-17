@@ -1,7 +1,7 @@
 <template>
     <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50vw' }">
         <h4>
-            Ajout d'un projet
+            Add a task
         </h4>
 
         <br/>
@@ -30,6 +30,14 @@
             </div>
         </template>
         <Column field="title" header="Task"></Column>
+        <Column>
+          <template #body="slotProps">
+            <div style="text-align: right">
+                <Button icon="pi pi-trash" @click="DeleteTask(slotProps.data.id)" />
+            </div>
+        </template>
+      </Column>
+        
         <!-- <Column field="percent" header="percent"></Column> -->
     </DataTable>
   </template>
@@ -41,7 +49,7 @@
   import Dialog from 'primevue/dialog';
   import Textarea from 'primevue/textarea';
   import InputText from 'primevue/inputtext';
-  import { PostApiRequest } from '../../services/getUserContext';
+  import { PostApiRequest, DeleteApiRequest } from '../../services/getUserContext';
   
   export default {
     name: 'tasksComponent',
@@ -86,6 +94,11 @@
         await PostApiRequest("task",this.taskToAdd);
         this.taskToAdd = {title:"",description:""};
         this.visible = false;
+        this.$emit('refresh')
+      },
+      async DeleteTask(id)
+      {
+        await DeleteApiRequest("task",id);
         this.$emit('refresh')
       }
     }

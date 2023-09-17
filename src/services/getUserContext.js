@@ -17,3 +17,12 @@ export async function GetApiRequest(objectName) {
     })
     return objects
   }
+
+  export async function DeleteApiRequest(objectName,id) {
+    var url = (GlobalUrl+objectName+"/"+id)
+    var objects = await $.ajax({
+        url:url,
+        method: "DELETE"
+    })
+    return objects
+  }
