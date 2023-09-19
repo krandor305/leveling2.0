@@ -30,6 +30,7 @@
             </div>
         </template>
         <Column field="title" header="Task"></Column>
+        <Column field="description" ></Column>
         <Column>
           <template #body="slotProps">
             <div style="text-align: right">

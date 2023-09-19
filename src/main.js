@@ -15,6 +15,7 @@ import Home from './components/Home'
 import Projects from './components/Projects'
 import Profile from './components/Profile'
 import Tasks from './components/Tasks'
+import Login from './components/Login'
 
 const routes=[
     {
@@ -37,9 +38,14 @@ const routes=[
         props:true,
         name:'Task',
         component:Tasks
-        
+    },
+    {
+        path:'/login',
+        name:'login',
+        component:Login
     },
 ];
+
 const routers=createRouter ({
     history: createWebHashHistory(),
     routes,

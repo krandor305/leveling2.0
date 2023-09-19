@@ -3,26 +3,52 @@ var GlobalUrl = 'http://127.0.0.1:8000/'
 var $ = window.jQuery = require('jquery');
 
 export async function GetApiRequest(objectName) {
-
-    var objects = await $.ajax(GlobalUrl+objectName)
+    let url = (GlobalUrl+objectName)
+    let ajaxObj = {url:url}
+    
+    if(localStorage.getItem("token"))
+    {
+      ajaxObj.beforeSend = function (xhr) {
+        xhr.setRequestHeader ("Authorization", "Token " + localStorage.getItem("token"));
+      }
+    }
+    
+    var objects = await $.ajax(ajaxObj)
     return objects
   }
 
   export async function PostApiRequest(objectName,data) {
     var url = (GlobalUrl+objectName+"/")
-    var objects = await $.ajax({
-        url:url,
-        method: "POST",
-        data:JSON.stringify(data)
-    })
+    let ajaxObj = {
+      url:url,
+      method: "POST",
+      data:JSON.stringify(data)
+    }
+    if(localStorage.getItem("token"))
+    {
+      ajaxObj.beforeSend = function (xhr) {
+        xhr.setRequestHeader ("Authorization", "Token " + localStorage.getItem("token"));
+      }
+    }
+
+    var objects = await $.ajax(ajaxObj)
     return objects
   }
 
   export async function DeleteApiRequest(objectName,id) {
     var url = (GlobalUrl+objectName+"/"+id)
-    var objects = await $.ajax({
-        url:url,
-        method: "DELETE"
-    })
+    let ajaxObj = {
+      url:url,
+      method: "DELETE"
+    }
+
+    if(localStorage.getItem("token"))
+    {
+      ajaxObj.beforeSend = function (xhr) {
+        xhr.setRequestHeader ("Authorization", "Token " + localStorage.getItem("token"));
+      }
+    }
+
+    var objects = await $.ajax(ajaxObj)
     return objects
   }

@@ -19,7 +19,6 @@ import ProfileCard from '../components/UserComponents/ProfileCard'
 export default {
   name: 'HomePage',
   props: {
-    
   },
   components:
   {
