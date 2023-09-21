@@ -91,7 +91,6 @@
       async SubmitAndResetCreate()
       {
         this.taskToAdd.project = this.ProjectId
-        this.taskToAdd.assignee = 1
         await PostApiRequest("task",this.taskToAdd);
         this.taskToAdd = {title:"",description:""};
         this.visible = false;
