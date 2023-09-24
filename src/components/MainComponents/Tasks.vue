@@ -18,6 +18,11 @@
             <label>Description</label>
         </span>
 
+        <span class="p-input-icon-left">
+            <InputText v-model="taskToAdd.skill" placeholder="Skill" />
+        </span>
+
+        <br/>
         <br/>
 
         <Button label="Save" @click="SubmitAndResetCreate" />
@@ -31,13 +36,22 @@
         </template>
         <Column field="title" header="Task"></Column>
         <Column field="description" ></Column>
+        <Column field="skill" ></Column>
+        <Column>
+          <template #body="slotProps">
+            <!-- <input type="checkbox" :checked="slotProps.data.done" @click="checkTask(slotProps.data.id)"> -->
+            <CheckBox :modelValue="slotProps.data.done" :binary="true"  > </CheckBox>
+          </template>
+        </Column>
         <Column>
           <template #body="slotProps">
             <div style="text-align: right">
                 <Button icon="pi pi-trash" @click="DeleteTask(slotProps.data.id)" />
             </div>
-        </template>
-      </Column>
+          </template>
+        </Column>
+
+      <!-- checktask/<int:pk>/ -->
         
         <!-- <Column field="percent" header="percent"></Column> -->
     </DataTable>
@@ -50,6 +64,8 @@
   import Dialog from 'primevue/dialog';
   import Textarea from 'primevue/textarea';
   import InputText from 'primevue/inputtext';
+  import CheckBox from 'primevue/checkbox';
+
   import { PostApiRequest, DeleteApiRequest } from '../../services/getUserContext';
   
   export default {
@@ -66,7 +82,8 @@
       Button,
       Dialog,
       Textarea,
-      InputText
+      InputText,
+      CheckBox
     },
     data(){
       return {
@@ -79,7 +96,7 @@
           { task:'Boxing' , percent: "20%"},
           { task:'Administrative papers  ' , percent: "20%"},
         ],
-        taskToAdd:{title:"",description:""}
+        taskToAdd:{title:"",description:"",skill:""}
       }
     },
     mounted()
@@ -92,13 +109,18 @@
       {
         this.taskToAdd.project = this.ProjectId
         await PostApiRequest("task",this.taskToAdd);
-        this.taskToAdd = {title:"",description:""};
+        this.taskToAdd = {title:"",description:"",skill:""};
         this.visible = false;
         this.$emit('refresh')
       },
       async DeleteTask(id)
       {
         await DeleteApiRequest("task",id);
+        this.$emit('refresh')
+      },
+      async checkTask(id)
+      {
+        await PostApiRequest("checktask/"+id,{});
         this.$emit('refresh')
       }
     }
