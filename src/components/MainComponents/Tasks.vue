@@ -40,7 +40,7 @@
         <Column>
           <template #body="slotProps">
             <!-- <input type="checkbox" :checked="slotProps.data.done" @click="checkTask(slotProps.data.id)"> -->
-            <CheckBox :modelValue="slotProps.data.done" :binary="true"  > </CheckBox>
+            <CheckBox :modelValue="slotProps.data.done" :binary="true" @click="checkTask(slotProps.data.id)" :disabled="slotProps.data.done"> </CheckBox>
           </template>
         </Column>
         <Column>
