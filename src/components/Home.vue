@@ -3,18 +3,20 @@
     <br/>
     <Button icon="pi pi-cog" rounded outlined style="float: left;" @click="cogActivated=!cogActivated"/>
     <Sidebar v-model:visible="cogActivated">
-        <h2>Ajout d'un block</h2>
+        <h2>Add a block</h2>
         <div class="flex flex-column gap-2">
           <Inputtext v-model="blockToAdd.title" placeholder="Title"></Inputtext>
-          <Dropdown v-model="blockToAdd.type" :options="['Link','Levels','Tasks','Profile']" placeholder="Type" class="w-full md:w-14rem" />
-          <Inputtext v-if="blockToAdd.type == 'Link'" v-model="blockToAdd.content" placeholder="Link"></Inputtext>
+          <Dropdown v-model="blockToAdd.typeBlock" :options="['Link','Levels','Tasks','Profile']" placeholder="Type" class="w-full md:w-14rem" />
+          <Inputtext v-if="blockToAdd.typeBlock == 'Link'" v-model="blockToAdd.content" placeholder="Link"></Inputtext>
           Size:&nbsp;<SelectButton v-model="blockToAdd.size" :options="['1/4','1/3','1/2','1/1']" aria-labelledby="multiple" />
+          Disposition:&nbsp;<SelectButton v-model="blockToAdd.disposition" :options="['Horizontal','Vertical']" aria-labelledby="multiple" />
+          <Button label="add" style="float: left;" @click="addBlock()"/>
         </div>
       </Sidebar>
   </div>
   <!-- Content starts here -->
   <div class="grid"> 
-      {{ blockToAdd }}
+      {{ blocks }}
   </div>
 </template>
 
@@ -26,7 +28,8 @@ import Sidebar from 'primevue/sidebar';
 import Dropdown from 'primevue/dropdown';
 import Inputtext from 'primevue/inputtext';
 import SelectButton from 'primevue/selectbutton';
-
+import { PostApiRequest,GetApiRequest } from '../services/getUserContext';
+        
 
 export default {
   name: 'HomePage',
@@ -46,9 +49,22 @@ export default {
   data(){
     return {
       cogActivated:false,
-      blockToAdd:{title:'',type:'',content:'',size:''}
-
+      blockToAdd:{title:'',typeBlock:'',content:'',size:'',disposition:''},
+      blocks:[]
     }
+  },
+  async mounted()
+  {
+    this.blocks = await GetApiRequest("blocknews");
+  },
+  methods:{
+      async addBlock()
+      {
+        var result = await PostApiRequest("blocknews",this.blockToAdd);
+        console.log(result)
+        this.cogActivated=!this.cogActivated
+        this.blockToAdd = {title:'',typeBlock:'',content:'',size:'',disposition:''}
+      }
   }
 }
 </script>
