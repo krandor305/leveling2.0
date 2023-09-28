@@ -7,7 +7,7 @@
         <br/>
 
         <span class="p-input-icon-left">
-            <InputText v-model="taskToAdd.title" placeholder="Title" />
+            <InputText v-model="taskToAdd.title" placeholder="Title *" />
         </span>
 
         <br/>
@@ -107,6 +107,10 @@
     methods:{
       async SubmitAndResetCreate()
       {
+        if(!this.taskToAdd.title)
+        {
+          return false;
+        }
         this.taskToAdd.project = this.ProjectId
         await PostApiRequest("task",this.taskToAdd);
         this.taskToAdd = {title:"",description:"",skill:""};
