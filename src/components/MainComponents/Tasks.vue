@@ -40,6 +40,8 @@
         <Column>
           <template #body="slotProps">
             <!-- <input type="checkbox" :checked="slotProps.data.done" @click="checkTask(slotProps.data.id)"> -->
+            <Button icon="pi pi-external-link" label="Duplicate task" @click="duplicateTask(slotProps.data)" />
+            &nbsp;
             <CheckBox :modelValue="slotProps.data.done" :binary="true" @click="checkTask(slotProps.data.id)" :disabled="slotProps.data.done"> </CheckBox>
           </template>
         </Column>
@@ -105,6 +107,13 @@
       // this.loadTasks()
     },
     methods:{
+      async duplicateTask(data)
+      {
+        this.taskToAdd = data
+        delete this.taskToAdd.id
+        delete this.taskToAdd.done
+        this.SubmitAndResetCreate()
+      },
       async SubmitAndResetCreate()
       {
         if(!this.taskToAdd.title)
