@@ -1,5 +1,4 @@
-var GlobalUrl = 'http://127.0.0.1:8000/'
-
+var GlobalUrl = process.env.VUE_APP_BACKENDURL
 var $ = window.jQuery = require('jquery');
 
 export async function GetApiRequest(objectName) {

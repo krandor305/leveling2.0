@@ -51,6 +51,8 @@ const routers=createRouter ({
     routes,
 })
 
+// console.log(process.env)
+// alert(process.env)
 
 const app = createApp(App)
 
