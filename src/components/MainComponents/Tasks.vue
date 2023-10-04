@@ -39,10 +39,13 @@
         <Column field="skill" ></Column>
         <Column>
           <template #body="slotProps">
+            <CheckBox :modelValue="slotProps.data.done" :binary="true" @click="checkTask(slotProps.data.id)" :disabled="slotProps.data.done"> </CheckBox>
+          </template>
+        </Column>
+        <Column>
+          <template #body="slotProps">
             <!-- <input type="checkbox" :checked="slotProps.data.done" @click="checkTask(slotProps.data.id)"> -->
             <Button icon="pi pi-external-link" label="Duplicate task" @click="duplicateTask(slotProps.data)" />
-            &nbsp;
-            <CheckBox :modelValue="slotProps.data.done" :binary="true" @click="checkTask(slotProps.data.id)" :disabled="slotProps.data.done"> </CheckBox>
           </template>
         </Column>
         <Column>
