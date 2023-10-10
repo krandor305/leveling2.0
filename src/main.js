@@ -51,6 +51,22 @@ const routers=createRouter ({
     routes,
 })
 
+routers.beforeEach((to, from, next) => {
+
+    if (!['login'].includes(to.name))
+    {
+      if(!localStorage.getItem("token") || localStorage.getItem("token") == 'undefined')
+      {
+        next({ name: 'Login' })
+      }
+      next()
+    }
+    else
+    {
+      next()
+    }
+  })
+
 // console.log(process.env)
 // alert(process.env)
 

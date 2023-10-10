@@ -7,6 +7,13 @@
             <Button label="Access" @click="$router.push('/task/'+slotProps.data.id)"></Button>
         </template>
     </Column>
+    <Column>
+      <template #body="slotProps">
+        <div style="text-align: right">
+            <Button icon="pi pi-trash" @click="DeleteProject(slotProps.data.id)" />
+        </div>
+      </template>
+    </Column>
   </DataTable>
 </template>
 
@@ -14,7 +21,7 @@
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
-import { GetApiRequest } from '../../services/getUserContext';
+import { GetApiRequest,DeleteApiRequest } from '../../services/getUserContext';
 
 
 export default {
@@ -49,7 +56,12 @@ export default {
     async loadProjects()
     {
       this.projects = await GetApiRequest("project")
-    }
+    },
+    async DeleteProject(id)
+    {
+      await DeleteApiRequest("project",id);
+      this.loadProjects()
+    },
   }
   
 }

@@ -1,10 +1,5 @@
 <template>
-    <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50vw' }">
-        <h4>
-            Add a task
-        </h4>
-
-        <br/>
+    <Dialog v-model:visible="visible" modal header="Add a task" :style="{ width: '50vw' }">
 
         <span class="p-input-icon-left">
             <InputText v-model="taskToAdd.title" placeholder="Title *" />
