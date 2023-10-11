@@ -1,6 +1,6 @@
 <template>
 
-  <Dialog v-model:visible="visible" modal header="Add a project" :style="{ width: '50vw' }">
+  <Dialog v-model:visible="visible" modal header="Add a project">
 
       <br/>
 
@@ -23,8 +23,8 @@
   </Dialog>
 
   <div class="grid">
-      <div class="col-2"></div>
-      <div class="col-6">
+      <div :class="colResponsive(2)"></div>
+      <div :class="colResponsive(6)">
       <Carousel :value="typesAdd" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions">
         <template #item="slotProps">
             <div class="border-1 surface-border border-round m-2 text-center py-5 px-3">
@@ -40,15 +40,15 @@
         </template>
       </Carousel>
       </div>
-      <div class="col-4"></div>
+      <div :class="colResponsive(4)"></div>
   </div>
 
   <div class="grid">
-      <div class="col-2"></div>
-        <div class="col-8">
+      <div :class="colResponsive(2)"></div>
+        <div :class="colResponsive(8)">
           <Projects :key="timestamp"/>
         </div>
-      <div class="col-2">
+      <div :class="colResponsive(2)">
         <ProfileCard :showLevels="true"></ProfileCard>
       </div>
       

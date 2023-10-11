@@ -9,6 +9,22 @@ import 'primeflex/primeflex.css';
 
 window.$ = window.jQuery = require('jquery');
 
+window.detectMob = function() {
+  const toMatch = [
+      /Android/i,
+      /webOS/i,
+      /iPhone/i,
+      /iPad/i,
+      /iPod/i,
+      /BlackBerry/i,
+      /Windows Phone/i
+  ];
+  
+  return toMatch.some((toMatchItem) => {
+      return navigator.userAgent.match(toMatchItem);
+  });
+}
+
 import {createRouter, createWebHashHistory} from "vue-router";
 
 import Home from './components/Home'
@@ -75,5 +91,17 @@ const app = createApp(App)
 
 app.use(PrimeVue)
 app.use(routers);
+
+app.mixin({
+  methods: {
+    colResponsive: function (number) {
+      if(window.detectMob())
+      {
+        return 'col-12'
+      }
+      return 'col-'+number
+    },
+  },
+})
 
 app.mount('#app')

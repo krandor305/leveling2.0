@@ -129,6 +129,11 @@ export default {
           {
             obj.size = 12
           }
+
+          if(window.detectMob())
+          {
+            obj.size = 12
+          }
           return obj
         })
         this.projects = await GetApiRequest("project")
