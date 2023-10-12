@@ -29,10 +29,10 @@
                 <Button icon="pi pi-external-link" label="Add a task" @click="visible=!visible" />
             </div>
         </template>
-        <Column field="title" header="Task"></Column>
-        <Column field="description" ></Column>
-        <Column field="skill" ></Column>
-        <Column>
+        <Column sortable field="title" header="Task"></Column>
+        <Column sortable field="description" ></Column>
+        <Column sortable field="skill" ></Column>
+        <Column field="done" :sortable="true">
           <template #body="slotProps">
             <CheckBox :modelValue="slotProps.data.done" :binary="true" @click="checkTask(slotProps.data.id)" :disabled="slotProps.data.done"> </CheckBox>
           </template>
