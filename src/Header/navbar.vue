@@ -29,7 +29,22 @@
                 {   label:'Profile',name:"Home",to:"/profile" },
             ]
         }
-    }
+    },
+    mounted()
+    {
+      this.items = [
+                {   label:'Home',name:"Home",to:"/" },
+                {   label:'Projects',name:"Home",to:"/projects" },
+                {   label:'Profile',name:"Home",to:"/profile" },
+            ]
+      if(!localStorage.getItem("token"))
+      {
+        this.items = [
+                {   label:'Home',name:"Home",to:"/Landing" },
+                {   label:'Login',name:"Login",to:"/Login" },
+            ]
+      }
+    },
   }
   </script>
   

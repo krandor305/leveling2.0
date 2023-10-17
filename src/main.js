@@ -32,6 +32,7 @@ import Projects from './components/Projects'
 import Profile from './components/Profile'
 import Tasks from './components/Tasks'
 import Login from './components/Login'
+import Landing from './components/Landing'
 
 const routes=[
     {
@@ -60,6 +61,11 @@ const routes=[
         name:'login',
         component:Login
     },
+    {
+      path:'/landing',
+      name:'landing',
+      component:Landing
+  },
 ];
 
 const routers=createRouter ({
@@ -69,11 +75,11 @@ const routers=createRouter ({
 
 routers.beforeEach((to, from, next) => {
 
-    if (!['login'].includes(to.name))
+    if (!['login','landing'].includes(to.name))
     {
       if(!localStorage.getItem("token") || localStorage.getItem("token") == 'undefined')
       {
-        next({ name: 'Login' })
+        next({ name: 'landing' })
       }
       next()
     }
