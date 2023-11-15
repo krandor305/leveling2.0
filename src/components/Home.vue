@@ -1,4 +1,5 @@
 <template>
+  <Toast />
   <div class="home">
     <br/>
     <Button icon="pi pi-cog" rounded outlined style="float: left;" @click="cogActivated=!cogActivated"/>
@@ -6,13 +7,13 @@
         <h2>Add a block</h2>
         <div class="flex flex-column gap-2">
           <Inputtext v-model="blockToAdd.title" placeholder="Title *"></Inputtext>
-          <Dropdown v-model="blockToAdd.typeBlock" :options="['Link','Levels','Tasks','Profile']" placeholder="Type" class="w-full md:w-14rem" />
+          <Dropdown v-model="blockToAdd.typeBlock" :options="['Link','Levels','Tasks','Profile']" placeholder="Type *" class="w-full md:w-14rem" />
 
           <Inputtext v-if="blockToAdd.typeBlock == 'Link'" v-model="blockToAdd.content" placeholder="Link"></Inputtext>
           <Dropdown v-else-if="blockToAdd.typeBlock == 'Tasks'" v-model="blockToAdd.content" :options="projects" optionvalue="id" optionLabel="title" placeholder="Projects" class="w-full md:w-14rem" />
 
           Size:&nbsp;<SelectButton v-model="blockToAdd.size" :options="['1/4','1/3','1/2','1/1']" aria-labelledby="multiple" />
-          Disposition:&nbsp;<SelectButton v-model="blockToAdd.disposition" :options="['Horizontal','Vertical']" aria-labelledby="multiple" />
+          <!-- Disposition:&nbsp;<SelectButton v-model="blockToAdd.disposition" :options="['Horizontal','Vertical']" aria-labelledby="multiple" /> -->
           <Button label="add" style="float: left;" @click="addBlock()"/>
         </div>
       </Sidebar>
@@ -25,7 +26,7 @@
         <Card>
             <template #title> {{ block.title }} 
               <div style="text-align: right">
-                <Button icon="pi pi-trash" @click="DeleteBlock(block.id)" />
+                <Button icon="pi pi-trash" severity="danger" @click="DeleteBlock(block.id)" />
             </div>
           </template>
             <template #content>
@@ -58,6 +59,7 @@ import SelectButton from 'primevue/selectbutton';
 import { PostApiRequest,GetApiRequest,DeleteApiRequest } from '../services/getUserContext';
 import Tasks from './Tasks'
 import ProfileCard from '../components/UserComponents/ProfileCard'
+import Toast from 'primevue/toast';
 
 export default {
   name: 'HomePage',
@@ -74,7 +76,8 @@ export default {
     Inputtext,
     SelectButton,
     Tasks,
-    ProfileCard
+    ProfileCard,
+    Toast
   },
   data(){
     return {
@@ -92,8 +95,9 @@ export default {
       async addBlock()
       {
         //validation
-        if(!this.blockToAdd.title)
+        if(!this.blockToAdd.title || !this.blockToAdd.typeBlock)
         {
+          this.$toast.add({ severity: 'danger', summary: 'Info', detail: 'Missing fields.', life: 3000 });
           return false;
         }
 

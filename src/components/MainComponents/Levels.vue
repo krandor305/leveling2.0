@@ -1,13 +1,13 @@
 <template>
-  <DataTable :key="loaded" :value="skills" tableStyle="min-width: 50rem">
+  <Datatable breakpoint="1024px" responsiveLayout="stack" :key="loaded" :value="skills" >
       <Column field="title" header="Skill"></Column>
       <Column field="level" header="Level"></Column>
       <Column field="experience" header="XP"></Column>
-  </DataTable>
+  </Datatable>
 </template>
 
 <script>
-import DataTable from 'primevue/datatable';
+import Datatable from 'primevue/datatable';
 import Column from 'primevue/column';
 import { GetApiRequest } from '../../services/getUserContext';
 
@@ -19,7 +19,7 @@ export default {
   },
   components:
   {
-    DataTable,
+    Datatable,
     Column
   },
   data(){

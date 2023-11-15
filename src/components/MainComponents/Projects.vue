@@ -1,5 +1,5 @@
 <template>
-  <DataTable :value="projects" tableStyle="min-width: 50rem">
+  <Datatable breakpoint="1024px" responsiveLayout="stack" :value="projects" >
       <Column field="title" header="Project"></Column>
       <!-- <Column field="percent" header="percent"></Column> -->
       <Column>
@@ -10,15 +10,15 @@
     <Column>
       <template #body="slotProps">
         <div style="text-align: right">
-            <Button icon="pi pi-trash" @click="DeleteProject(slotProps.data.id)" />
+            <Button icon="pi pi-trash" severity="danger" @click="DeleteProject(slotProps.data.id)" />
         </div>
       </template>
     </Column>
-  </DataTable>
+  </Datatable>
 </template>
 
 <script>
-import DataTable from 'primevue/datatable';
+import Datatable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
 import { GetApiRequest,DeleteApiRequest } from '../../services/getUserContext';
@@ -28,7 +28,7 @@ export default {
   name: 'ProjectsComponent',
   components:
   {
-    DataTable,
+    Datatable,
     Column,
     Button
   },

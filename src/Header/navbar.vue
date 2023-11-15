@@ -1,7 +1,7 @@
 <template>
     <Menubar :model="items">
         <template #start>
-        <b>Evolev</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <b style="padding: 5px;border-style: solid;border-radius: 50%;border-color: #9696fb;font-family: sans-serif;font-size: 30px;"><span style="color:red">E</span>volev</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </template>
     <!-- <template #item="{item}">
         <router-link :to="item.to">

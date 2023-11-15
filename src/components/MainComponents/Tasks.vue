@@ -1,5 +1,5 @@
 <template>
-    <Dialog v-model:visible="visible" modal header="Add a task" :style="{ width: '50vw' }">
+    <Dialog v-model:visible="visible" modal header="Add a task">
 
         <span class="p-input-icon-left">
             <InputText v-model="taskToAdd.title" placeholder="Title *" />
@@ -23,18 +23,28 @@
         <Button label="Save" @click="SubmitAndResetCreate" />
     </Dialog>
 
-    <DataTable :value="tasks" tableStyle="min-width: 50rem">
+    <Datatable breakpoint="1024px" responsiveLayout="stack" :value="tasks" >
         <template #header>
             <div style="text-align: right">
                 <Button icon="pi pi-external-link" label="Add a task" @click="visible=!visible" />
             </div>
         </template>
-        <Column sortable field="title" header="Task"></Column>
-        <Column sortable field="description" ></Column>
+        <Column sortable field="title" header="Title">
+          <template #body="slotProps">
+            <span v-if="slotProps.data.title.length<25">{{ slotProps.data.title }}</span>
+            <span v-else>{{ slotProps.data.title.substring(0,25) }}...</span>
+          </template>
+        </Column>
+        <Column sortable field="description" header="Description">
+          <template #body="slotProps">
+            <span v-if="slotProps.data.description.length<25">{{ slotProps.data.description }}</span>
+            <span v-else>{{ slotProps.data.description.substring(0,25) }}...</span>
+          </template>
+        </Column>
         <Column sortable field="skill" ></Column>
         <Column field="done" :sortable="true">
           <template #body="slotProps">
-            <CheckBox :modelValue="slotProps.data.done" :binary="true" @click="checkTask(slotProps.data.id)" :disabled="slotProps.data.done"> </CheckBox>
+            <CheckBox :modelValue="slotProps.data.done" :binary="true" @click="checkTask(slotProps.data)" :disabled="slotProps.data.done"> </CheckBox>
           </template>
         </Column>
         <Column>
@@ -46,7 +56,7 @@
         <Column>
           <template #body="slotProps">
             <div style="text-align: right">
-                <Button icon="pi pi-trash" @click="DeleteTask(slotProps.data.id)" />
+                <Button icon="pi pi-trash" severity="danger" @click="DeleteTask(slotProps.data.id)" />
             </div>
           </template>
         </Column>
@@ -58,7 +68,7 @@
   </template>
   
   <script>
-  import DataTable from 'primevue/datatable';
+  import Datatable from 'primevue/datatable';
   import Column from 'primevue/column';
   import Button from 'primevue/button';
   import Dialog from 'primevue/dialog';
@@ -77,7 +87,7 @@
     emits:['refresh'],
     components:
     {
-      DataTable,
+      Datatable,
       Column,
       Button,
       Dialog,
@@ -89,12 +99,6 @@
       return {
         visible:false,
         tasks:[
-          { task:'Waifu-GPT' , percent: "20%"},
-          { task:'WebNovel' , percent: "20%"},
-          { task:'Portfolio/Freelance tasks' , percent: "20%"},
-          { task:'Work tasks' , percent: "20%"},
-          { task:'Boxing' , percent: "20%"},
-          { task:'Administrative papers  ' , percent: "20%"},
         ],
         taskToAdd:{title:"",description:"",skill:""}
       }
@@ -119,20 +123,24 @@
           return false;
         }
         this.taskToAdd.project = this.ProjectId
-        await PostApiRequest("task",this.taskToAdd);
+        var addedTask = await PostApiRequest("task",this.taskToAdd);
+        console.log(addedTask)
+        this.tasks.push(addedTask)
         this.taskToAdd = {title:"",description:"",skill:""};
         this.visible = false;
-        this.$emit('refresh')
       },
       async DeleteTask(id)
       {
         await DeleteApiRequest("task",id);
-        this.$emit('refresh')
+        this.tasks = this.tasks.filter(function(d){
+          return d.id != id
+        })
       },
-      async checkTask(id)
+      async checkTask(obj)
       {
-        await PostApiRequest("checktask/"+id,{});
-        this.$emit('refresh')
+        await PostApiRequest("checktask/"+obj.id,{});
+        obj.done = true
+        // this.$emit('refresh')
       }
     }
   }
@@ -140,6 +148,19 @@
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
-  
+
+    @media screen and (max-width: 1024px) 
+    {
+      .p-datatable[pv_id_11] > .p-datatable-wrapper  > .p-datatable-table > .p-datatable-tbody > tr > td {
+        display: flex;
+        width: 75% !important;
+        align-items: center;
+        justify-content: space-between;
+        } 
+
+    }
+    
+
+    
   </style>
   

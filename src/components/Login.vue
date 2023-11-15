@@ -1,49 +1,36 @@
 <template>
 
-  <div class="grid">
-        <div class="col-3">
+  <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6" style="text-align:center">
+    <div class="text-center mb-5">
+        <!-- <img src="/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3" /> -->
+        <div class="text-900 text-3xl font-medium mb-3">Log in</div>
+        <!-- <span class="text-600 font-medium line-height-3">Don't have an account?</span> -->
+        <!-- <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create today!</a> -->
+    </div>
+    <Message :key="clicked" v-if="state==false" severity="error">Username/Password are not adequate</Message>
+    <div>
+        <label for="email1" class="block text-900 font-medium mb-2">Username</label>
+        <InputText id="email1" type="text" class="w-full mb-3" v-model="login.username"/>
+
+        <label for="password1" class="block text-900 font-medium mb-2">Password</label>
+        <InputText id="password1" type="password" class="w-full mb-3" v-model="login.password"/>
+
+        <div class="flex align-items-center justify-content-between mb-6">
+            <div class="flex align-items-center">
+                <!-- <Checkbox id="rememberme1" :binary="true" v-model="checked" class="mr-2"></Checkbox> -->
+                <!-- <label for="rememberme1">Remember me</label> -->
+            </div>
+            <!-- <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot password?</a> -->
         </div>
 
-        <div class="col-6">
-          <Card>
-              <template #title> Login </template>
-              <template #content>
-                <img alt="user header" height="150" width="150" src="https://images.unsplash.com/photo-1476445704028-a36e0c798192?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3540&q=80" />
-                
-                <Message :key="clicked" v-if="state==false" severity="error">Username/Password are not adequate</Message>
-                <p>Username:</p>
-                <br/>
-
-                <div class="p-inputgroup flex-1">
-                    <span class="p-inputgroup-addon">
-                        <i class="pi pi-user"></i>
-                    </span>
-                    <InputText placeholder="Username" v-model="login.username"/>
-                </div>
-
-                <p>Password:</p>
-                <br/>
-
-                <div class="p-inputgroup flex-1">
-                    <Password v-model="login.password" toggleMask/>
-                </div>
-                
-                <br/>
-                <Button label="Login" @click="Login"></Button>
-              </template>
-          </Card>
-        </div>
-
-        <div class="col-3">
-        </div>
+        <Button label="Log in" icon="pi pi-user" class="w-full" @click="Login"></Button>
+    </div>
   </div>
 </template>
 
 <script>
 import Button from 'primevue/button';
-import Card from 'primevue/card';
 import InputText from 'primevue/inputtext';
-import Password from 'primevue/password';
 import Message from 'primevue/message';
 import { PostApiRequest } from '../services/getUserContext';
 
@@ -56,8 +43,6 @@ export default {
   components:
   {
     Button,
-    Card,
-    Password,
     InputText,
     Message
   },
@@ -82,6 +67,9 @@ export default {
             password:""
           }
           localStorage.setItem('token',res.token)
+          // debugger;
+          console.log("login")
+          // window.location.reload();
           this.$router.push('projects')
         }
         else

@@ -1,13 +1,13 @@
 <template>
   <div class="grid">
+    <div :class="colResponsive(2)">
+        <ProfileCard :showLevels="false"></ProfileCard>
+      </div>
+
       <div :class="colResponsive(2)"></div>
         <div :class="colResponsive(8)">
           <Levels />
         </div>
-      <div :class="colResponsive(2)">
-        <ProfileCard :showLevels="false"></ProfileCard>
-      </div>
-      
   </div>
 </template>
 

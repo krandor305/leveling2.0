@@ -25,9 +25,9 @@
   <div class="grid">
       <div :class="colResponsive(2)"></div>
       <div :class="colResponsive(6)">
-      <Carousel :value="typesAdd" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions">
+      <Carousel :value="typesAdd" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions" >
         <template #item="slotProps">
-            <div class="border-1 surface-border border-round m-2 text-center py-5 px-3">
+            <div class="border-1 surface-border border-round m-2 text-center py-5 px-3" style="height:90%">
                 <div class="mb-3">
                     <img width="150" :src="'https://images.unsplash.com/photo-1620325867502-221cfb5faa5f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1757&q=80'" class="w-6 shadow-2" />
                 </div>
@@ -48,16 +48,16 @@
         <div :class="colResponsive(8)">
           <Projects :key="timestamp"/>
         </div>
-      <div :class="colResponsive(2)">
+      <!-- <div :class="colResponsive(2)">
         <ProfileCard :showLevels="true"></ProfileCard>
-      </div>
+      </div> -->
       
   </div>
 </template>
 
 <script>
 import Projects from '../components/MainComponents/Projects'
-import ProfileCard from '../components/UserComponents/ProfileCard'
+// import ProfileCard from '../components/UserComponents/ProfileCard'
 import Carousel from 'primevue/carousel';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
@@ -73,7 +73,7 @@ export default {
   components:
   {
     Projects,
-    ProfileCard,
+    // ProfileCard,
     Carousel,
     Button,
     Dialog,
