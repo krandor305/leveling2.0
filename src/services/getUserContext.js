@@ -34,6 +34,24 @@ export async function GetApiRequest(objectName) {
     return objects
   }
 
+  export async function PutApiRequest(objectName,data) {
+    var url = (GlobalUrl+objectName+"/")
+    let ajaxObj = {
+      url:url,
+      method: "PUT",
+      data:JSON.stringify(data)
+    }
+    if(localStorage.getItem("token"))
+    {
+      ajaxObj.beforeSend = function (xhr) {
+        xhr.setRequestHeader ("Authorization", "Token " + localStorage.getItem("token"));
+      }
+    }
+
+    var objects = await $.ajax(ajaxObj)
+    return objects
+  }
+
   export async function DeleteApiRequest(objectName,id) {
     var url = (GlobalUrl+objectName+"/"+id)
     let ajaxObj = {

@@ -6,14 +6,26 @@
 
       <div :class="colResponsive(2)"></div>
         <div :class="colResponsive(8)">
-          <Levels />
+            <TabView>
+              <TabPanel header="Skills">
+                  <Levels />
+              </TabPanel>
+              <TabPanel header="Preferences">
+                  <Preferences />
+              </TabPanel> 
+          </TabView>
         </div>
+      <div :class="colResponsive(2)"></div>
+      
   </div>
 </template>
 
 <script>
 import Levels from '../components/MainComponents/Levels'
 import ProfileCard from '../components/UserComponents/ProfileCard'
+import Preferences from '../components/UserComponents/Preferences'
+import TabView from 'primevue/tabview';
+import TabPanel from 'primevue/tabpanel';
 
 
 export default {
@@ -24,7 +36,10 @@ export default {
   components:
   {
     Levels,
-    ProfileCard
+    ProfileCard,
+    TabView,
+    TabPanel,
+    Preferences
   },
   data(){
     return {

@@ -25,7 +25,7 @@
   <div class="grid">
       <div :class="colResponsive(2)"></div>
       <div :class="colResponsive(6)">
-      <Carousel :value="typesAdd" :numVisible="3" :numScroll="3" :responsiveOptions="responsiveOptions" >
+      <Carousel :value="typesAdd" :numVisible="2" :numScroll="3" :responsiveOptions="responsiveOptions" >
         <template #item="slotProps">
             <div class="border-1 surface-border border-round m-2 text-center py-5 px-3" style="height:90%">
                 <div class="mb-3">
@@ -63,7 +63,7 @@ import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import Textarea from 'primevue/textarea';
 import InputText from 'primevue/inputtext';
-import { PostApiRequest } from '../services/getUserContext';
+import { PostApiRequest,GetApiRequest } from '../services/getUserContext';
 
 
 export default {
@@ -82,10 +82,18 @@ export default {
   },
   data(){
     return {
-      typesAdd:[{name:"Custom project",actif:true},{name:"Leetcode(Coming soon)",actif:false},{name:"Boxing(Coming soon)",actif:false},{name:"Shared Custom project(Coming soon)",actif:false},],
+      typesAdd:[{name:"Custom project",actif:true}],
       visible:false,
       taskToAdd:{title:"",description:""},
       timestamp:0
+    }
+  },
+  async mounted()
+  {
+    var preferences = await GetApiRequest("auth/Preferences")
+    if(preferences.specifications && preferences.specifications.selectedTypes && preferences.specifications.selectedTypes.length>0)
+    {
+      this.typesAdd = this.typesAdd.concat(preferences.specifications.selectedTypes)
     }
   },
   methods:{
